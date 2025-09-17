@@ -3,7 +3,9 @@ import { Toolbar } from './components/Toolbar';
 import { MarkdownEditor } from './modules/editor/MarkdownEditor';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { StatusBar } from './components/StatusBar';
+
 import { DrawnixEditorOverlay } from './components/DrawnixEditorOverlay';
+
 
 const App = () => {
   useEditorTheme();

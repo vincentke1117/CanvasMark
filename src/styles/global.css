@@ -189,7 +189,6 @@ button {
   color: rgba(31, 31, 36, 0.6);
 }
 
-
 [data-milkdown-root] {
   background-color: var(--cm-surface-variant);
   border: 1px solid var(--cm-border);
@@ -249,6 +248,7 @@ button {
   font-size: 0.95rem;
   font-weight: 600;
 }
+
 
 .cm-panel__badge {
   margin-left: 0.5rem;
@@ -378,6 +378,7 @@ label.cm-field {
   font-size: 0.85rem;
   color: rgba(31, 31, 36, 0.7);
 }
+
 
 .cm-diagnostics {
   display: flex;

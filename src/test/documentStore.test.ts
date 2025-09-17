@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { useDocumentStore } from '../modules/documents/documentStore';
 import { createEmptyDrawnixSnapshot } from '../modules/blocks/drawnixPlaceholders';
 
+
 const resetStore = () => {
   const { newDocument } = useDocumentStore.getState();
   newDocument();
@@ -27,6 +28,7 @@ describe('useDocumentStore', () => {
     expect(state.document.themes.export).toBe('classic');
   });
 
+
   it('should update drawnix block snapshot', () => {
     resetStore();
     const { registerBlock, updateBlock } = useDocumentStore.getState();
@@ -43,4 +45,5 @@ describe('useDocumentStore', () => {
     expect(state.document.blocks['test-block'].description).toBe('更新后的白板');
     expect(state.isDirty).toBe(true);
   });
+
 });

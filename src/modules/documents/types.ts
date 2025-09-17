@@ -1,3 +1,4 @@
+
 import type { DrawnixBlockData } from '../blocks/drawnixTypes';
 
 export interface DrawnixBlockSnapshot {

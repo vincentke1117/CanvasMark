@@ -74,12 +74,15 @@ const createDecorations = (
     if (node.type.name !== 'paragraph') return;
     const blockId = extractDrawnixPlaceholderId(node.textContent ?? '');
     if (!blockId) return;
+
     const block = blocks[blockId];
+
 
     decorations.push(
       Decoration.node(pos, pos + node.nodeSize, {
         class: 'cm-drawnix-placeholder',
         'data-block-id': blockId,
+
         'data-preview-state': block?.preview ? 'ready' : 'empty',
       }),
     );
@@ -87,6 +90,7 @@ const createDecorations = (
     decorations.push(
       Decoration.widget(pos + 1, () => createPreviewWidget(blockId, block), {
         key: `drawnix:${blockId}`,
+
       }),
     );
   });
@@ -98,6 +102,7 @@ export const drawnixPlaceholderPlugin = $prose(() =>
   new Plugin({
     key: pluginKey,
     state: {
+
       init: (_, state) =>
         createDecorations(state.doc, useDocumentStore.getState().document.blocks),
       apply: (tr, value, _oldState, newState) => {
@@ -111,6 +116,7 @@ export const drawnixPlaceholderPlugin = $prose(() =>
 
         if (tr.docChanged) {
           return createDecorations(tr.doc, useDocumentStore.getState().document.blocks);
+
         }
 
         return value.map(tr.mapping, tr.doc);
@@ -119,6 +125,7 @@ export const drawnixPlaceholderPlugin = $prose(() =>
     props: {
       decorations: (state) => pluginKey.getState(state) ?? DecorationSet.empty,
     },
+
     view: (view) => {
       let previousBlocks = useDocumentStore.getState().document.blocks;
       const unsubscribe = useDocumentStore.subscribe((state) => {
@@ -135,5 +142,6 @@ export const drawnixPlaceholderPlugin = $prose(() =>
         },
       };
     },
+
   }),
 );

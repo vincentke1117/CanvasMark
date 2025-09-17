@@ -1,3 +1,4 @@
+
 import type { DrawnixBlockData } from './drawnixTypes';
 import { createEmptyDrawnixData } from './drawnixTypes';
 import type { DrawnixBlockSnapshot } from '../documents/types';

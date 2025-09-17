@@ -26,7 +26,6 @@ export const Toolbar = () => {
   useRovingFocus(fileGroupRef, { orientation: 'horizontal' });
   useRovingFocus(insertGroupRef, { orientation: 'horizontal' });
   useRovingFocus(exportGroupRef, { orientation: 'horizontal' });
-
   const handleImport = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -64,6 +63,7 @@ export const Toolbar = () => {
     window.setTimeout(() => {
       editorBus.emit('drawnix:open-editor', { blockId });
     }, 0);
+
   };
 
   return (
