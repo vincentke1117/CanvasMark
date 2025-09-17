@@ -128,6 +128,7 @@ button {
   padding: 2rem 3rem;
 }
 
+
 .cm-editor__surface {
   display: flex;
   flex-direction: column;
@@ -188,7 +189,6 @@ button {
   font-size: 0.75rem;
   color: rgba(31, 31, 36, 0.6);
 }
-
 
 [data-milkdown-root] {
   background-color: var(--cm-surface-variant);

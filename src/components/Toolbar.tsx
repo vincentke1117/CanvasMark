@@ -25,7 +25,6 @@ export const Toolbar = () => {
   useRovingFocus(fileGroupRef, { orientation: 'horizontal' });
   useRovingFocus(insertGroupRef, { orientation: 'horizontal' });
   useRovingFocus(exportGroupRef, { orientation: 'horizontal' });
-
   const handleImport = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -102,7 +101,6 @@ export const Toolbar = () => {
           插入白板块
         </button>
       </div>
-
       <div className="cm-toolbar__group" aria-label="主题切换">
         <label className="cm-field" htmlFor="editor-theme" style={{ flexDirection: 'row' }}>
           <span>编辑主题</span>
