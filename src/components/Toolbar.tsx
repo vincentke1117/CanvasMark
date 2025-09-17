@@ -4,6 +4,10 @@ import { buildDocumentPackage, downloadPackage, readPackageFile } from '../modul
 import { editorThemes, exportThemes } from '../modules/themes/themes';
 import { useExportService } from '../modules/exports/exportService';
 import { downloadText } from '../utils/download';
+import { editorBus } from '../modules/editor/editorBus';
+import { createEmptyDrawnixSnapshot } from '../modules/blocks/drawnixPlaceholders';
+import { generateId } from '../utils/id';
+import { useRovingFocus } from '../hooks/useRovingFocus';
 
 export const Toolbar = () => {
   const document = useDocumentStore((state) => state.document);
@@ -11,9 +15,16 @@ export const Toolbar = () => {
   const newDocument = useDocumentStore((state) => state.newDocument);
   const loadFromPackage = useDocumentStore((state) => state.loadFromPackage);
   const setThemes = useDocumentStore((state) => state.setThemes);
+  const registerBlock = useDocumentStore((state) => state.registerBlock);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileGroupRef = useRef<HTMLDivElement | null>(null);
+  const insertGroupRef = useRef<HTMLDivElement | null>(null);
+  const exportGroupRef = useRef<HTMLDivElement | null>(null);
   const { exportStandard, exportWechat } = useExportService();
 
+  useRovingFocus(fileGroupRef, { orientation: 'horizontal' });
+  useRovingFocus(insertGroupRef, { orientation: 'horizontal' });
+  useRovingFocus(exportGroupRef, { orientation: 'horizontal' });
   const handleImport = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -44,20 +55,27 @@ export const Toolbar = () => {
     downloadText(`${document.title || 'canvasmark'}-wechat.html`, html);
   };
 
+  const handleInsertDrawnixBlock = () => {
+    const blockId = generateId();
+    registerBlock(createEmptyDrawnixSnapshot(blockId));
+    editorBus.emit('insert:drawnix-block', { blockId });
+  };
+
   return (
     <header className="cm-toolbar" role="toolbar" aria-label="主工具栏">
-      <div className="cm-toolbar__group" aria-label="文件操作">
-        <button type="button" className="cm-button" onClick={newDocument}>
+      <div className="cm-toolbar__group" aria-label="文件操作" ref={fileGroupRef}>
+        <button type="button" className="cm-button" onClick={newDocument} data-roving-item>
           新建
         </button>
         <button
           type="button"
           className="cm-button"
           onClick={() => fileInputRef.current?.click()}
+          data-roving-item
         >
           打开
         </button>
-        <button type="button" className="cm-button" onClick={handleExportPackage}>
+        <button type="button" className="cm-button" onClick={handleExportPackage} data-roving-item>
           导出包
         </button>
         <input
@@ -78,6 +96,11 @@ export const Toolbar = () => {
         />
       </div>
 
+      <div className="cm-toolbar__group" aria-label="插入" ref={insertGroupRef}>
+        <button type="button" className="cm-button" onClick={handleInsertDrawnixBlock} data-roving-item>
+          插入白板块
+        </button>
+      </div>
       <div className="cm-toolbar__group" aria-label="主题切换">
         <label className="cm-field" htmlFor="editor-theme" style={{ flexDirection: 'row' }}>
           <span>编辑主题</span>
@@ -111,11 +134,11 @@ export const Toolbar = () => {
         </label>
       </div>
 
-      <div className="cm-toolbar__group" aria-label="导出操作">
-        <button type="button" className="cm-button" onClick={handleExportStandard}>
+      <div className="cm-toolbar__group" aria-label="导出操作" ref={exportGroupRef}>
+        <button type="button" className="cm-button" onClick={handleExportStandard} data-roving-item>
           标准 HTML
         </button>
-        <button type="button" className="cm-button" onClick={handleExportWechat}>
+        <button type="button" className="cm-button" onClick={handleExportWechat} data-roving-item>
           公众号 HTML
         </button>
       </div>

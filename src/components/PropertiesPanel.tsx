@@ -75,10 +75,11 @@ export const PropertiesPanel = () => {
       <section className="cm-panel" aria-label="Drawnix 块概况">
         <header className="cm-panel__header">Drawnix 块（预览阶段）</header>
         <p>
-          当前共有 {Object.keys(document.blocks).length} 个 Drawnix 块。后续版本将提供内嵌白板编辑能力。
+          当前共有 {Object.keys(document.blocks).length} 个 Drawnix 块。使用工具栏的“插入白板块”按钮，可在光标处生成
+          <code style={{ marginLeft: '0.25rem' }}>{'{{drawnix:blockId}}'}</code> 占位并登记到项目包中。
         </p>
         <p style={{ fontSize: '0.85rem', color: 'rgba(31,31,36,0.7)' }}>
-          目前可从项目包中导入块数据，并在导出时保留预览。插入与编辑功能将于下一里程碑实现。
+          导出标准 HTML / 公众号 HTML 时，占位会替换为预览图片；若预览缺失，将以占位提示保留。后续版本将解锁白板内容的在线编辑。
         </p>
       </section>
     </aside>

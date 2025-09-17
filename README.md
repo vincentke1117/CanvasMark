@@ -3,7 +3,8 @@
 CanvasMark 是一款面向内容创作者的 Markdown + Drawnix 白板一体化写作与导出工具。你可以在同一界面中完成内容创作、主题切换以及标准 HTML / 公众号 HTML 的导出。
 
 - 产品规格文档：[`docs/product-spec.md`](docs/product-spec.md)
-- 当前版本：前端单页应用骨架 + Markdown 基础编辑能力 + HTML 导出预览
+- 当前版本：前端单页应用骨架 + Markdown 基础编辑能力 + 可视化格式工具栏（粗体/标题/列表/表格） + HTML 导出预览
+
 
 ## 快速开始
 
@@ -47,8 +48,8 @@ npm run dev
 
 - ✅ 阶段 0：工程骨架、Lint/TypeScript/Vitest、Vite 开发环境
 - ✅ 阶段 1：Milkdown 基础编辑、主题切换、项目包导入导出骨架、标准/公众号 HTML 导出（初版）
-- ⏳ 阶段 2：Drawnix 白板块的 schema、视图与预览生成（当前提供占位信息）
-- ⏳ 阶段 3 及后续：导出能力深化、长图/PDF、主题生态等
+- ✅ Markdown 编辑器已提供可视化格式工具栏，并启用 GitHub Flavored Markdown 表格 / 删除线 / 任务列表支持
+
 
 ## 已知限制
 

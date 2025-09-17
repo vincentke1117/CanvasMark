@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it';
 import dayjs from 'dayjs';
 import { exportThemeStyles } from '../themes/exportStyles';
 import { useDocumentStore } from '../documents/documentStore';
+import { injectDrawnixBlocks } from '../blocks/drawnixPlaceholders';
 
 const markdown = new MarkdownIt({
   html: false,
@@ -61,24 +62,26 @@ const applyWechatCleanup = (html: string) => {
 };
 
 export const useExportService = () => {
-  const { title, content, themes } = useDocumentStore((state) => state.document);
+  const { title, content, themes, blocks } = useDocumentStore((state) => state.document);
+
+  const prepareMarkdown = useCallback(() => injectDrawnixBlocks(content, blocks), [content, blocks]);
 
   const exportStandard = useCallback(() => {
     const context: ExportContext = {
       title,
-      markdown: content,
+      markdown: prepareMarkdown(),
       generatedAt: dayjs().format('YYYY-MM-DD HH:mm'),
       themeId: themes.export,
     };
 
     const body = markdown.render(context.markdown);
     return buildHtmlDocument(body, context.themeId, context);
-  }, [title, content, themes.export]);
+  }, [title, prepareMarkdown, themes.export]);
 
   const exportWechat = useCallback(() => {
     const context: ExportContext = {
       title,
-      markdown: content,
+      markdown: prepareMarkdown(),
       generatedAt: dayjs().format('YYYY-MM-DD HH:mm'),
       themeId: themes.export,
     };
@@ -86,7 +89,7 @@ export const useExportService = () => {
     const body = markdown.render(context.markdown);
     const html = buildHtmlDocument(body, context.themeId, context);
     return applyWechatCleanup(html);
-  }, [title, content, themes.export]);
+  }, [title, prepareMarkdown, themes.export]);
 
   return {
     exportStandard,

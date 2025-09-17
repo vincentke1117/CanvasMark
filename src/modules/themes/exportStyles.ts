@@ -55,6 +55,38 @@ const classic = `
     max-width: 100%;
     border-radius: 0.75rem;
   }
+  figure.canvasmark-drawnix {
+    margin: 2.5rem 0;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border: 1px solid rgba(15, 18, 26, 0.08);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(76, 110, 245, 0.04), rgba(76, 110, 245, 0.02));
+    box-shadow: 0 16px 40px rgba(15, 18, 26, 0.08);
+    text-align: center;
+  }
+  figure.canvasmark-drawnix img {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(15, 18, 26, 0.08);
+    box-shadow: 0 12px 32px rgba(15, 18, 26, 0.08);
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+  }
+  figure.canvasmark-drawnix__caption {
+    font-size: 0.9rem;
+    color: #6c6f7d;
+    margin-top: 0.75rem;
+  }
+  figure.canvasmark-drawnix.canvasmark-drawnix--missing,
+  figure.canvasmark-drawnix.canvasmark-drawnix--empty {
+    border-style: dashed;
+    border-color: rgba(76, 110, 245, 0.4);
+    background: rgba(76, 110, 245, 0.05);
+  }
+  figure.canvasmark-drawnix .canvasmark-drawnix__fallback {
+    color: #3f4254;
+    font-size: 0.95rem;
+  }
 `;
 
 const inkNight = `
@@ -110,6 +142,38 @@ const inkNight = `
   img {
     max-width: 100%;
     border-radius: 0.75rem;
+  }
+  figure.canvasmark-drawnix {
+    margin: 2.5rem 0;
+    padding: 1.5rem 1.75rem 1.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(67, 78, 137, 0.4), rgba(20, 24, 38, 0.6));
+    text-align: center;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  figure.canvasmark-drawnix img {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    width: 100%;
+    height: auto;
+    background: rgba(12, 16, 28, 0.6);
+  }
+  figure.canvasmark-drawnix__caption {
+    font-size: 0.9rem;
+    color: rgba(231, 233, 255, 0.75);
+    margin-top: 0.75rem;
+  }
+  figure.canvasmark-drawnix.canvasmark-drawnix--missing,
+  figure.canvasmark-drawnix.canvasmark-drawnix--empty {
+    border-style: dashed;
+    border-color: rgba(118, 143, 255, 0.65);
+    background: rgba(118, 143, 255, 0.12);
+  }
+  figure.canvasmark-drawnix .canvasmark-drawnix__fallback {
+    color: rgba(231, 233, 255, 0.75);
+    font-size: 0.95rem;
   }
 `;
 
