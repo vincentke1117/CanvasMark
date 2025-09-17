@@ -4,6 +4,9 @@ import { MarkdownEditor } from './modules/editor/MarkdownEditor';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { StatusBar } from './components/StatusBar';
 
+import { DrawnixEditorOverlay } from './components/DrawnixEditorOverlay';
+
+
 const App = () => {
   useEditorTheme();
 
@@ -19,6 +22,7 @@ const App = () => {
         <PropertiesPanel />
       </main>
       <StatusBar />
+      <DrawnixEditorOverlay />
     </div>
   );
 };

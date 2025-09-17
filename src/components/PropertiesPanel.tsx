@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react';
+import dayjs from 'dayjs';
 import { useDocumentStore } from '../modules/documents/documentStore';
 import { editorThemes, exportThemes } from '../modules/themes/themes';
 import { useExportService } from '../modules/exports/exportService';
 import { downloadText } from '../utils/download';
+import { PaginationDiagnosticsPanel } from './PaginationDiagnosticsPanel';
+import { editorBus } from '../modules/editor/editorBus';
 
 export const PropertiesPanel = () => {
   const document = useDocumentStore((state) => state.document);
@@ -22,6 +25,16 @@ export const PropertiesPanel = () => {
   const htmlPreview = useMemo(() => {
     return previewType === 'standard' ? exportStandard() : exportWechat();
   }, [previewType, exportStandard, exportWechat]);
+
+  const blocks = useMemo(() => {
+    return Object.values(document.blocks).sort((a, b) => {
+      const timeA = a.meta.updatedAt ? Date.parse(a.meta.updatedAt) : 0;
+      const timeB = b.meta.updatedAt ? Date.parse(b.meta.updatedAt) : 0;
+      return timeB - timeA;
+    });
+  }, [document.blocks]);
+
+  const removeBlock = useDocumentStore((state) => state.removeBlock);
 
   return (
     <aside className="cm-properties" aria-label="属性面板">
@@ -72,15 +85,60 @@ export const PropertiesPanel = () => {
         </div>
       </section>
 
-      <section className="cm-panel" aria-label="Drawnix 块概况">
-        <header className="cm-panel__header">Drawnix 块（预览阶段）</header>
-        <p>
-          当前共有 {Object.keys(document.blocks).length} 个 Drawnix 块。使用工具栏的“插入白板块”按钮，可在光标处生成
-          <code style={{ marginLeft: '0.25rem' }}>{'{{drawnix:blockId}}'}</code> 占位并登记到项目包中。
-        </p>
-        <p style={{ fontSize: '0.85rem', color: 'rgba(31,31,36,0.7)' }}>
-          导出标准 HTML / 公众号 HTML 时，占位会替换为预览图片；若预览缺失，将以占位提示保留。后续版本将解锁白板内容的在线编辑。
-        </p>
+      <PaginationDiagnosticsPanel />
+
+      <section className="cm-panel" aria-label="Drawnix 块列表">
+        <header className="cm-panel__header">
+          Drawnix 白板
+          <span className="cm-panel__badge" aria-live="polite">
+            {blocks.length} 个
+          </span>
+        </header>
+        {blocks.length === 0 ? (
+          <p>
+            使用工具栏的“插入白板块”按钮即可创建白板。首次插入会自动打开编辑器，你可以在其中绘制草图、脑图或流程。预览图会随保存自动
+            同步，导出时将替换为图片。
+          </p>
+        ) : (
+          <ul className="cm-drawnix-list">
+            {blocks.map((block) => (
+              <li key={block.blockId} className="cm-drawnix-list__item">
+                <figure>
+                  {block.preview ? (
+                    <img src={block.preview} alt={block.description || `${block.blockId} 预览`} />
+                  ) : (
+                    <div className="cm-drawnix-list__empty">尚未生成预览</div>
+                  )}
+                  <figcaption>
+                    <strong>{block.description || `Drawnix 块 ${block.blockId}`}</strong>
+                    <span>
+                      最近更新：
+                      {block.meta.updatedAt
+                        ? dayjs(block.meta.updatedAt).format('YYYY-MM-DD HH:mm')
+                        : '尚未保存'}
+                    </span>
+                  </figcaption>
+                </figure>
+                <div className="cm-drawnix-list__actions">
+                  <button
+                    type="button"
+                    className="cm-button cm-button--ghost"
+                    onClick={() => editorBus.emit('drawnix:open-editor', { blockId: block.blockId })}
+                  >
+                    编辑
+                  </button>
+                  <button
+                    type="button"
+                    className="cm-button cm-button--danger"
+                    onClick={() => removeBlock(block.blockId)}
+                  >
+                    移除
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </aside>
   );

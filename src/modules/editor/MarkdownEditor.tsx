@@ -19,6 +19,7 @@ import { useDocumentStore } from '../documents/documentStore';
 import { resetFormattingState, updateFormattingState } from './formattingState';
 import { editorBus } from './editorBus';
 import { drawnixPlaceholderPlugin } from './plugins/drawnixPlaceholder';
+import { paginationMarkerPlugin } from './plugins/paginationMarker';
 import { buildDrawnixPlaceholder } from '../blocks/drawnixPlaceholders';
 
 const EditorInner = () => {
@@ -43,6 +44,7 @@ const EditorInner = () => {
         .use(history)
         .use(listener)
         .use(drawnixPlaceholderPlugin)
+        .use(paginationMarkerPlugin)
         .config((ctx) => {
           const manager = ctx.get(listenerCtx);
           manager.markdownUpdated((_, markdown) => {

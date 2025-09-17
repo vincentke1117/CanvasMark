@@ -1,3 +1,6 @@
+
+import type { DrawnixBlockData } from './drawnixTypes';
+import { createEmptyDrawnixData } from './drawnixTypes';
 import type { DrawnixBlockSnapshot } from '../documents/types';
 
 export const DRAWNIX_PLACEHOLDER_TOKEN = 'drawnix';
@@ -72,7 +75,7 @@ export const createEmptyDrawnixSnapshot = (
 ): DrawnixBlockSnapshot => ({
   blockId,
   type: 'drawnix',
-  data: null,
+  data: createEmptyDrawnixData(),
   preview: null,
   size: {
     width: 960,
@@ -84,3 +87,17 @@ export const createEmptyDrawnixSnapshot = (
   },
   description: 'Drawnix 白板块',
 });
+
+export const cloneDrawnixData = (data: DrawnixBlockData | null): DrawnixBlockData => {
+  if (!data) return createEmptyDrawnixData();
+  return {
+    width: data.width,
+    height: data.height,
+    background: data.background,
+    strokes: data.strokes.map((stroke) => ({
+      color: stroke.color,
+      size: stroke.size,
+      points: stroke.points.map((point) => ({ ...point })),
+    })),
+  };
+};

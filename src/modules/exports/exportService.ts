@@ -5,6 +5,9 @@ import { exportThemeStyles } from '../themes/exportStyles';
 import { useDocumentStore } from '../documents/documentStore';
 import { injectDrawnixBlocks } from '../blocks/drawnixPlaceholders';
 
+import { stripPaginationMarkers } from '../pagination/paginationMarkers';
+
+
 const markdown = new MarkdownIt({
   html: false,
   linkify: true,
@@ -64,7 +67,11 @@ const applyWechatCleanup = (html: string) => {
 export const useExportService = () => {
   const { title, content, themes, blocks } = useDocumentStore((state) => state.document);
 
-  const prepareMarkdown = useCallback(() => injectDrawnixBlocks(content, blocks), [content, blocks]);
+
+  const prepareMarkdown = useCallback(() => {
+    const withoutMarkers = stripPaginationMarkers(content);
+    return injectDrawnixBlocks(withoutMarkers, blocks);
+  }, [content, blocks]);
 
   const exportStandard = useCallback(() => {
     const context: ExportContext = {

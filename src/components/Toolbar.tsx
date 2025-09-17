@@ -8,6 +8,7 @@ import { editorBus } from '../modules/editor/editorBus';
 import { createEmptyDrawnixSnapshot } from '../modules/blocks/drawnixPlaceholders';
 import { generateId } from '../utils/id';
 import { useRovingFocus } from '../hooks/useRovingFocus';
+import { PaginationMarkerMenu } from './PaginationMarkerMenu';
 
 export const Toolbar = () => {
   const document = useDocumentStore((state) => state.document);
@@ -59,6 +60,10 @@ export const Toolbar = () => {
     const blockId = generateId();
     registerBlock(createEmptyDrawnixSnapshot(blockId));
     editorBus.emit('insert:drawnix-block', { blockId });
+    window.setTimeout(() => {
+      editorBus.emit('drawnix:open-editor', { blockId });
+    }, 0);
+
   };
 
   return (
@@ -100,7 +105,9 @@ export const Toolbar = () => {
         <button type="button" className="cm-button" onClick={handleInsertDrawnixBlock} data-roving-item>
           插入白板块
         </button>
+        <PaginationMarkerMenu />
       </div>
+
       <div className="cm-toolbar__group" aria-label="主题切换">
         <label className="cm-field" htmlFor="editor-theme" style={{ flexDirection: 'row' }}>
           <span>编辑主题</span>

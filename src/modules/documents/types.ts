@@ -1,7 +1,10 @@
+
+import type { DrawnixBlockData } from '../blocks/drawnixTypes';
+
 export interface DrawnixBlockSnapshot {
   blockId: string;
   type: 'drawnix';
-  data: unknown;
+  data: DrawnixBlockData | null;
   preview: string | null;
   size: {
     width: number;

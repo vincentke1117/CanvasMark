@@ -44,6 +44,10 @@ type DocumentActions = {
   setTitle: (title: string) => void;
   setThemes: (themes: Partial<DocumentThemes>) => void;
   registerBlock: (snapshot: DrawnixBlockSnapshot) => void;
+  updateBlock: (
+    blockId: string,
+    updater: (snapshot: DrawnixBlockSnapshot) => DrawnixBlockSnapshot,
+  ) => void;
   removeBlock: (blockId: string) => void;
   markSaved: () => void;
   newDocument: () => void;
@@ -112,6 +116,32 @@ export const useDocumentStore = create<DocumentState & DocumentActions>((set) =>
       return {
         document: nextDocument,
         meta: deriveMeta(nextDocument.content, Object.keys(nextBlocks).length, state.meta.lastSavedAt),
+        isDirty: true,
+      };
+    }),
+  updateBlock: (blockId, updater) =>
+    set((state) => {
+      const current = state.document.blocks[blockId];
+      if (!current) return state;
+
+      const nextSnapshot = updater(current);
+      const nextBlocks = {
+        ...state.document.blocks,
+        [blockId]: nextSnapshot,
+      };
+      const nextDocument = {
+        ...state.document,
+        blocks: nextBlocks,
+        updatedAt: new Date().toISOString(),
+      };
+
+      return {
+        document: nextDocument,
+        meta: deriveMeta(
+          nextDocument.content,
+          Object.keys(nextBlocks).length,
+          state.meta.lastSavedAt,
+        ),
         isDirty: true,
       };
     }),
